@@ -62,7 +62,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Summary" href="4summary.html" />
-    <link rel="prev" title="Dataset and preprocessing" href="2dataset_and_preprocessing.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="2dataset_and_preprocessing.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -181,7 +181,6 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="2dataset_and_preprocessing.html">Dataset and Preprocessing</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">What makes happiness?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4summary.html">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="5reflection.html">Reflection</a></li>
@@ -416,37 +415,125 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="what-makes-happiness">
 <h1>What makes Happiness?<a class="headerlink" href="#what-makes-happiness" title="Link to this heading">#</a></h1>
-<<<<<<< HEAD
-<p>For a long time, people have been interested in what makes us happy and how we can improve well-being in society. One big question is whether having more money or wealth actually makes people happier, or if there are other things that matter more. We often hear the saying “money can’t buy happiness,” but the real answer is a bit more complicated than that.</p>
-<p>In this data story, we will explore how happiness relates to different economic and social factors using information from the World Happiness Report 2019 and World Development Indicators. This report looks at how happy people are in different countries and compares that with demographic variables like GDP per capita, Gross National Income (GNI), the gini index, unemployment rates, education levels, and life expectancy.</p>
-<p>We want to find out if richer countries really have happier people, and if so, how strong this connection is. But we will also look beyond money to see how things like having a job, going to school, and living a long, healthy life affect happiness. For example, being unemployed might make people less happy even if their country is wealthy, and having a good education could improve well-being in ways that money alone can’t.</p>
-<p>First, we will compare happiness scores with income indicators like GDP per capita and GNI. Then, we will analyze how unemployment rates relate to happiness. After that, we will look at the gini index, education and life expectancy to see how these factors could affect happiness scores across countries.</p>
-<p>By comparing these different aspects, we hope to better understand what really contributes to happiness around the world. This will help us see whether the saying “money buys happiness” really holds. And if it doesn’t hold, we could find out what does make happiness.</p>
-=======
 <p>Hallo</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DP YN BBS MH&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+
+<span class="n">happiness_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;2019happy.csv&quot;</span><span class="p">)</span>
+<span class="n">gdp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;WDI_new.csv&quot;</span><span class="p">)</span>
+
+
+<span class="n">happiness_df</span> <span class="o">=</span> <span class="n">happiness_df</span><span class="p">[[</span><span class="s1">&#39;Country or region&#39;</span><span class="p">,</span> <span class="s1">&#39;Score&#39;</span><span class="p">]]</span>
+<span class="n">happiness_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Country or region&#39;</span><span class="p">:</span> <span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="s1">&#39;Score&#39;</span><span class="p">:</span> <span class="s1">&#39;Happiness Score&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">gdp_df</span> <span class="o">=</span> <span class="n">gdp_df</span><span class="p">[</span><span class="n">gdp_df</span><span class="p">[</span><span class="s1">&#39;Series Name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;GDP per capita (constant LCU)&#39;</span><span class="p">]</span>
+<span class="n">gdp_df</span> <span class="o">=</span> <span class="n">gdp_df</span><span class="p">[[</span><span class="s1">&#39;Country Name&#39;</span><span class="p">,</span> <span class="s1">&#39;2019 [YR2019]&#39;</span><span class="p">]]</span>
+<span class="n">gdp_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Country Name&#39;</span><span class="p">:</span> <span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="s1">&#39;2019 [YR2019]&#39;</span><span class="p">:</span> <span class="s1">&#39;GDP per capita&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">gdp_df</span><span class="p">[</span><span class="s1">&#39;GDP per capita&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">gdp_df</span><span class="p">[</span><span class="s1">&#39;GDP per capita&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+
+<span class="n">merged_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">happiness_df</span><span class="p">,</span> <span class="n">gdp_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Country&#39;</span><span class="p">)</span>
+<span class="n">merged_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;GDP per capita&#39;</span><span class="p">],</span>
+    <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;Happiness Score&#39;</span><span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+
+
+<span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">20000</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span> <span class="mi">100000</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">,</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s2">k&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xticks</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;GDP per capita (international-$ in 2021 prices)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Life satisfaction (0–10)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Self-reported life satisfaction vs. GDP per capita&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DP YN BBS MH
-DP YN BBS MH
-DP YN BBS MH
-DP YN BBS MH
-DP YN BBS MH
-DP YN BBS MH
-DP YN BBS MH
-DP YN BBS MH
-DP YN BBS MH
-DP YN BBS MH
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">happiness_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;2019happy.csv&quot;</span><span class="p">)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
 </pre></div>
 </div>
 </div>
 </div>
->>>>>>> 55852bc56d5b404b943726e6e5e44388fe9a1612
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
+
+<span class="c1"># 1. Data inladen</span>
+<span class="n">whr_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;2019happy.csv&#39;</span><span class="p">)</span>
+<span class="n">wdi_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;WDI_new.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># 2. Werkloosheidsdata extraheren voor 2019</span>
+<span class="n">unemployment_df</span> <span class="o">=</span> <span class="n">wdi_df</span><span class="p">[</span><span class="n">wdi_df</span><span class="p">[</span><span class="s1">&#39;Series Code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;SL.UEM.TOTL.NE.ZS&#39;</span><span class="p">][[</span><span class="s1">&#39;Country Name&#39;</span><span class="p">,</span> <span class="s1">&#39;2019 [YR2019]&#39;</span><span class="p">]]</span>
+<span class="n">unemployment_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;2019 [YR2019]&#39;</span><span class="p">:</span> <span class="s1">&#39;Werkloosheidsgraad&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">unemployment_df</span><span class="p">[</span><span class="s1">&#39;Werkloosheidsgraad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">unemployment_df</span><span class="p">[</span><span class="s1">&#39;Werkloosheidsgraad&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+<span class="c1"># 3. Bevolkingsdata extraheren voor 2019</span>
+<span class="n">population_df</span> <span class="o">=</span> <span class="n">wdi_df</span><span class="p">[</span><span class="n">wdi_df</span><span class="p">[</span><span class="s1">&#39;Series Code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">][[</span><span class="s1">&#39;Country Name&#39;</span><span class="p">,</span> <span class="s1">&#39;2019 [YR2019]&#39;</span><span class="p">]]</span>
+<span class="n">population_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;2019 [YR2019]&#39;</span><span class="p">:</span> <span class="s1">&#39;Bevolking&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">population_df</span><span class="p">[</span><span class="s1">&#39;Bevolking&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">population_df</span><span class="p">[</span><span class="s1">&#39;Bevolking&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+<span class="c1"># 4. Datasets samenvoegen op landnaam</span>
+<span class="n">merged_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">whr_df</span><span class="p">,</span> <span class="n">unemployment_df</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;Country or region&#39;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">&#39;Country Name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+<span class="n">merged_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merged_df</span><span class="p">,</span> <span class="n">population_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Country Name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+
+<span class="c1"># 5. Relevante kolommen selecteren en ontbrekende waarden verwijderen</span>
+<span class="n">merged_df</span> <span class="o">=</span> <span class="n">merged_df</span><span class="p">[[</span><span class="s1">&#39;Country Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Score&#39;</span><span class="p">,</span> <span class="s1">&#39;Werkloosheidsgraad&#39;</span><span class="p">,</span> <span class="s1">&#39;Bevolking&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="c1"># 6. Bubble plot maken</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">merged_df</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Werkloosheidsgraad&#39;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Score&#39;</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="s1">&#39;Bevolking&#39;</span><span class="p">,</span>
+    <span class="n">hover_name</span><span class="o">=</span><span class="s1">&#39;Country Name&#39;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Werkloosheidsgraad vs Geluksindex per Land (2019)&#39;</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Werkloosheidsgraad&#39;</span><span class="p">:</span> <span class="s1">&#39;Werkloosheidsgraad (%)&#39;</span><span class="p">,</span> <span class="s1">&#39;Score&#39;</span><span class="p">:</span> <span class="s1">&#39;Geluksindex&#39;</span><span class="p">},</span>
+    <span class="n">size_max</span><span class="o">=</span><span class="mi">60</span>
+<span class="p">)</span>
+
+<span class="c1"># 7. Plot weergeven</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -485,7 +572,7 @@ DP YN BBS MH
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Dataset and preprocessing</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
       </div>
     </a>
     <a class="right-next"

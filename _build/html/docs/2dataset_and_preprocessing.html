@@ -232,6 +232,37 @@
 
 
 
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/meesuva/Visualitie/blob/main/docs/docs/2dataset_and_preprocessing.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
 <div class="dropdown dropdown-source-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
     <i class="fab fa-github"></i>
@@ -287,7 +318,7 @@
       
       
       
-      <li><a href="../_sources/docs/2dataset_and_preprocessing.md" target="_blank"
+      <li><a href="../_sources/docs/2dataset_and_preprocessing.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -297,7 +328,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -385,7 +416,164 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="dataset-and-preprocessing">
 <h1>Dataset and preprocessing<a class="headerlink" href="#dataset-and-preprocessing" title="Link to this heading">#</a></h1>
-<p>Hallo hallo hallo</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="c1">#</span>
+<span class="n">df_happy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;2019happy.csv&#39;</span><span class="p">)</span>
+<span class="n">df_happy</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_happy</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">df_happy</span> <span class="o">=</span> <span class="n">df_happy</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;Country or region&#39;</span><span class="p">:</span> <span class="s1">&#39;Country&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Score&#39;</span><span class="p">:</span>             <span class="s1">&#39;Happiness&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Social support&#39;</span><span class="p">:</span>    <span class="s1">&#39;Social_support&#39;</span>
+<span class="p">})</span>
+<span class="n">df_happy</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2019</span>
+
+<span class="c1">#</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;WDI_new.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Country Name&#39;</span><span class="p">:</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span><span class="s1">&#39;Series Code&#39;</span><span class="p">:</span><span class="s1">&#39;Series_Code&#39;</span><span class="p">})</span>
+
+<span class="c1">#</span>
+<span class="n">year_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d</span><span class="si">{4}</span><span class="s1"> \[YR\d</span><span class="si">{4}</span><span class="s1">\]&#39;</span><span class="p">,</span> <span class="n">c</span><span class="p">)]</span>
+<span class="n">year_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">year_cols</span><span class="p">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">year_map</span><span class="p">)</span>
+<span class="n">df_long</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span>
+    <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span><span class="s1">&#39;Series_Code&#39;</span><span class="p">],</span>
+    <span class="n">value_vars</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">year_map</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+    <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Value&#39;</span>
+<span class="p">)</span>
+<span class="n">df_long</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_long</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df_long</span><span class="p">[</span><span class="s1">&#39;Value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df_long</span><span class="p">[</span><span class="s1">&#39;Value&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="n">wanted</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;NY.GDP.PCAP.KN&quot;</span><span class="p">:</span>    <span class="s2">&quot;GDP_per_capita&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NY.GNP.PCAP.KN&quot;</span><span class="p">:</span>    <span class="s2">&quot;GNI_per_capita&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SI.POV.GINI&quot;</span><span class="p">:</span>       <span class="s2">&quot;Gini_index&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SP.DYN.LE00.IN&quot;</span><span class="p">:</span>    <span class="s2">&quot;Life_expectancy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SL.UEM.TOTL.NE.ZS&quot;</span><span class="p">:</span> <span class="s2">&quot;Unemployment_rate&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SE.XPD.TOTL.GB.ZS&quot;</span><span class="p">:</span> <span class="s2">&quot;Edu_expenditure_pct&quot;</span> 
+<span class="p">}</span>
+<span class="n">w19</span> <span class="o">=</span> <span class="n">df_long</span><span class="p">[(</span><span class="n">df_long</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">2019</span><span class="p">)</span> <span class="o">&amp;</span> 
+             <span class="p">(</span><span class="n">df_long</span><span class="p">[</span><span class="s1">&#39;Series_Code&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">wanted</span><span class="p">))]</span>
+<span class="n">wide</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">w19</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span>
+        <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Series_Code&#39;</span><span class="p">,</span>
+        <span class="n">values</span><span class="o">=</span><span class="s1">&#39;Value&#39;</span><span class="p">,</span>
+        <span class="n">aggfunc</span><span class="o">=</span><span class="s1">&#39;first&#39;</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">wanted</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># </span>
+<span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_happy</span><span class="p">[[</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span><span class="s1">&#39;Happiness&#39;</span><span class="p">]],</span>
+                    <span class="n">wide</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+
+<span class="n">df_final</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">df_final</span><span class="o">.</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_final</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Country</th>
+      <th>Year</th>
+      <th>Happiness</th>
+      <th>GDP_per_capita</th>
+      <th>GNI_per_capita</th>
+      <th>Edu_expenditure_pct</th>
+      <th>Gini_index</th>
+      <th>Unemployment_rate</th>
+      <th>Life_expectancy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Finland</td>
+      <td>2019</td>
+      <td>7.769</td>
+      <td>4.136822e+04</td>
+      <td>41713.578984</td>
+      <td>10.522777</td>
+      <td>27.7</td>
+      <td>6.695</td>
+      <td>81.982927</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Denmark</td>
+      <td>2019</td>
+      <td>7.600</td>
+      <td>3.842619e+05</td>
+      <td>393851.728340</td>
+      <td>12.742900</td>
+      <td>27.7</td>
+      <td>5.018</td>
+      <td>81.451220</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Norway</td>
+      <td>2019</td>
+      <td>7.554</td>
+      <td>6.186207e+05</td>
+      <td>626366.192611</td>
+      <td>10.874369</td>
+      <td>27.7</td>
+      <td>3.684</td>
+      <td>82.958537</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Iceland</td>
+      <td>2019</td>
+      <td>7.494</td>
+      <td>7.584458e+06</td>
+      <td>NaN</td>
+      <td>16.135857</td>
+      <td>NaN</td>
+      <td>3.507</td>
+      <td>83.163415</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Netherlands</td>
+      <td>2019</td>
+      <td>7.488</td>
+      <td>4.439247e+04</td>
+      <td>42744.127516</td>
+      <td>11.834926</td>
+      <td>29.2</td>
+      <td>3.379</td>
+      <td>82.112195</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
