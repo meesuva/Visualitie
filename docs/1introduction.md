@@ -7,7 +7,7 @@ This data story will mainly visualize and analyze whether higher income levels c
 
 
 **Authors** 
-Bruno Schlotter 15791572
-Mees Herder 15568423
-Daniel Penninkhof 15014967
-Yousri Nait Aicha 14651440
+Bruno Schlotter 15791572 <br>
+Mees Herder 15568423 <br>
+Daniel Penninkhof 15014967 <br>
+Yousri Nait Aicha 14651440 <br>
