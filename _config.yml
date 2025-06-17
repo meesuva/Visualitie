@@ -28,12 +28,22 @@ html:
   use_issues_button: true
   use_repository_button: true
   theme:
-    name: sphinx_book_theme  # Explicitly declare theme (you're likely using this)
-    search_bar_text: ""  # Empty search text
-    search_bar_position: "none"  # Disable completely
-    # Optional: Clean up sidebar further
+    name: sphinx_book_theme
+    # Completely disable search
+    search_bar_text: ""
+    search_bar_position: "none"
+    # Remove search from header too
+    navbar_end: ["navbar-icon-links"]  # Removes any search box in header
+    
+    # These control what appears in sidebar
+    left_sidebar_only: false
     show_navbar_depth: 1
     show_toc_level: 1
+    sidebar_footer: ""
+    
+    # Extra insurance
+    extra_navbar: ""
+    extra_footer: ""
 
 # Add launch buttons
 launch_buttons:
@@ -49,6 +59,8 @@ sphinx:
     master_doc: "1introduction"
     html_js_files:
       # This is for plotly to work
-      - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
+      - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js'
+    html_use_index: false
+    html_use_opensearch: false
 
 
