@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Dataset and preprocessing &#8212; Can money buy happiness?</title>
+    <title>title: Dataset &amp; Preprocessing &#8212; Can money buy happiness?</title>
   
   
   
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -181,7 +181,8 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dataset and Preprocessing</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">title: Dataset &amp; Preprocessing</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="3what_makes_happiness.html">What makes happiness?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4summary.html">Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="5reflection.html">Reflection</a></li>
@@ -389,7 +390,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -400,11 +403,25 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Dataset and preprocessing</h1>
+    <h1>title: Dataset & Preprocessing</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">title: Dataset &amp; Preprocessing</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-preprocessing">Dataset &amp; Preprocessing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning">Cleaning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-descriptions">Variable Descriptions</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -414,8 +431,80 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="dataset-and-preprocessing">
-<h1>Dataset and preprocessing<a class="headerlink" href="#dataset-and-preprocessing" title="Link to this heading">#</a></h1>
+  <hr class="docutils" />
+<section id="title-dataset-preprocessing">
+<h1>title: Dataset &amp; Preprocessing<a class="headerlink" href="#title-dataset-preprocessing" title="Link to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="dataset-preprocessing">
+<h1>Dataset &amp; Preprocessing<a class="headerlink" href="#dataset-preprocessing" title="Link to this heading">#</a></h1>
+<p>At the outset of our project, we needed a single, unified table that combined self-reported happiness scores with country-level development indicators. We selected:</p>
+<ul class="simple">
+<li><p><strong>World Happiness Report (2019)</strong> from Kaggle, for its Life Ladder (happiness) scores and related psychosocial factors.</p></li>
+<li><p><strong>World Bank Development Indicators</strong> (WDI), for six concrete metrics (GDP per capita, GNI per capita, Gini index, life expectancy, unemployment rate, and education spending).</p></li>
+</ul>
+<p>Below we describe how we cleaned and merged these sources, and document every variable in our final dataset.</p>
+<hr class="docutils" />
+<section id="cleaning">
+<h2>Cleaning<a class="headerlink" href="#cleaning" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Standardize column names</strong></p>
+<ul class="simple">
+<li><p>Stripped whitespace, converted all names to <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>, and renamed for clarity.</p></li>
+</ul>
+</li>
+<li><p><strong>Reshape WDI from wide to long</strong></p>
+<ul class="simple">
+<li><p>Melted the year-columns (<code class="docutils literal notranslate"><span class="pre">2015</span> <span class="pre">[YR2015]</span></code>–<code class="docutils literal notranslate"><span class="pre">2019</span> <span class="pre">[YR2019]</span></code>) into a two-column (<code class="docutils literal notranslate"><span class="pre">Year</span></code>, <code class="docutils literal notranslate"><span class="pre">Value</span></code>) format.</p></li>
+</ul>
+</li>
+<li><p><strong>Filter to 2019 and our six series</strong></p>
+<ul class="simple">
+<li><p>Kept only the six codes we care about (<code class="docutils literal notranslate"><span class="pre">NY.GDP.PCAP.KN</span></code>, <code class="docutils literal notranslate"><span class="pre">NY.GNP.PCAP.KN</span></code>, <code class="docutils literal notranslate"><span class="pre">SI.POV.GINI</span></code>, <code class="docutils literal notranslate"><span class="pre">SP.DYN.LE00.IN</span></code>, <code class="docutils literal notranslate"><span class="pre">SL.UEM.TOTL.NE.ZS</span></code>, <code class="docutils literal notranslate"><span class="pre">SE.XPD.TOTL.GB.ZS</span></code>), all for year 2019.</p></li>
+</ul>
+</li>
+<li><p><strong>Pivot back to wide</strong></p>
+<ul class="simple">
+<li><p>Turned those six long rows per country into six separate columns, resolving any duplicates by taking the first value.</p></li>
+</ul>
+</li>
+<li><p><strong>Merge with Happiness</strong></p>
+<ul class="simple">
+<li><p>Inner-joined on <code class="docutils literal notranslate"><span class="pre">(Country,</span> <span class="pre">Year)</span></code> so that only countries present in both datasets remain.</p></li>
+</ul>
+</li>
+<li><p><strong>Index &amp; file format</strong></p>
+<ul class="simple">
+<li><p>Shifted the table’s index to start at 1.</p></li>
+</ul>
+</li>
+</ol>
+<p>After this pipeline, we arrived at <strong>132 countries</strong> × <strong>12 variables</strong>, ready for visualization.</p>
+</section>
+<hr class="docutils" />
+<section id="variable-descriptions">
+<h2>Variable Descriptions<a class="headerlink" href="#variable-descriptions" title="Link to this heading">#</a></h2>
+<p>Each row in the final table represents a country in 2019, with the following columns:</p>
+<ul class="simple">
+<li><p><strong>Country</strong> (Nominal / Identifier)<br />
+The name of the country.</p></li>
+<li><p><strong>Year</strong> (Interval)<br />
+The calendar year of the data (2019).</p></li>
+<li><p><strong>Happiness</strong> (Continuous / Ratio)<br />
+The Life Ladder score from the World Happiness Report.</p></li>
+<li><p><strong>GDP_per_capita</strong> (Continuous / Ratio)<br />
+Gross Domestic Product per capita (constant local currency units) from the World Bank.</p></li>
+<li><p><strong>GNI_per_capita</strong> (Continuous / Ratio)<br />
+Gross National Income per capita (constant local currency units) from the World Bank.</p></li>
+<li><p><strong>Edu_expenditure_pct</strong> (Continuous / Ratio)<br />
+Government expenditure on education, as a percentage of GDP, from the World Bank.</p></li>
+<li><p><strong>Gini_index</strong> (Continuous / Ratio)<br />
+Gini coefficient measuring income inequality (0 = perfect equality, 100 = maximum inequality).</p></li>
+<li><p><strong>Unemployment_rate</strong> (Continuous / Ratio)<br />
+Unemployment, total (% of total labour force) from the World Bank.</p></li>
+<li><p><strong>Life_expectancy</strong> (Continuous / Ratio)<br />
+Life expectancy at birth, in years, from the World Bank.</p></li>
+</ul>
+<hr class="docutils" />
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -575,6 +664,7 @@ document.write(`
 </div></div></div>
 </div>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -630,6 +720,27 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">title: Dataset &amp; Preprocessing</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-preprocessing">Dataset &amp; Preprocessing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning">Cleaning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-descriptions">Variable Descriptions</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
