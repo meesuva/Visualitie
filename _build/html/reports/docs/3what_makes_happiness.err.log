@@ -1,0 +1,103 @@
+Traceback (most recent call last):
+  File "/home/m/miniconda3/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/m/miniconda3/lib/python3.13/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/home/m/miniconda3/lib/python3.13/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/m/miniconda3/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/m/miniconda3/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/m/miniconda3/lib/python3.13/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/home/m/miniconda3/lib/python3.13/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/m/miniconda3/lib/python3.13/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+happiness_df = pd.read_csv("2019happy.csv")
+gdp_df = pd.read_csv("WDI_new.csv")
+
+happiness_df = happiness_df[['Country or region', 'Score']]
+happiness_df.rename(columns={'Country or region': 'Country', 'Score': 'Happiness Score'}, inplace=True)
+
+
+gdp_df = gdp_df[gdp_df['Series Name'] == 'GDP per capita (constant LCU)']
+gdp_df = gdp_df[['Country Name', '2019 [YR2019]']]
+gdp_df.rename(columns={'Country Name': 'Country', '2019 [YR2019]': 'GDP per capita'}, inplace=True)
+gdp_df['GDP per capita'] = pd.to_numeric(gdp_df['GDP per capita'], errors='coerce')
+
+
+merged_df = pd.merge(happiness_df, gdp_df, on='Country')
+merged_df.dropna(inplace=True)
+
+
+plt.figure(figsize=(14, 8))
+sns.set(style="whitegrid")
+
+plt.scatter(
+    merged_df['GDP per capita'],
+    merged_df['Happiness Score'],
+    color='steelblue',
+    edgecolor='white',
+    s=100,
+    alpha=0.85
+)
+
+
+plt.xlim(1000, 170000)  
+plt.xticks(
+    range(0, 170000, 10000),  
+    [f"${int(x/1000)}k" for x in range(0, 170000, 10000)],
+    fontsize=12
+)
+
+plt.yticks(range(2, 11), fontsize=12)
+plt.ylim(2, 10)
+
+plt.xlabel('GDP per capita', fontsize=13)
+plt.ylabel('Life satisfaction (0–10)', fontsize=13)
+plt.title('Self-reported life satisfaction vs. GDP per capita', fontsize=16, weight='bold')
+
+plt.grid(True, linestyle='--', alpha=0.5)
+sns.despine()
+plt.tight_layout()
+plt.show()
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 2[39m
+[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
+[32m----> [39m[32m2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mmatplotlib[39;00m[34;01m.[39;00m[34;01mpyplot[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mplt[39;00m
+[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mseaborn[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01msns[39;00m
+[32m      5[39m happiness_df = pd.read_csv([33m"[39m[33m2019happy.csv[39m[33m"[39m)
+
+[31mModuleNotFoundError[39m: No module named 'matplotlib'
+
