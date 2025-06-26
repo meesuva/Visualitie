@@ -37,67 +37,175 @@ Traceback (most recent call last):
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import numpy as np
+import plotly.graph_objects as go
+from plotly.offline import init_notebook_mode, iplot
+from sklearn.linear_model import LinearRegression
 
-happiness_df = pd.read_csv("2019happy.csv")
-gdp_df = pd.read_csv("WDI_new.csv")
+init_notebook_mode(connected=True)
 
-happiness_df = happiness_df[['Country or region', 'Score']]
-happiness_df.rename(columns={'Country or region': 'Country', 'Score': 'Happiness Score'}, inplace=True)
+df = pd.read_csv('final.csv')
 
+df['Happiness_rank'] = df['Happiness'].rank(method='min', ascending=False).astype(int)
+total_countries = df['Country'].nunique()
 
-gdp_df = gdp_df[gdp_df['Series Name'] == 'GDP per capita (constant LCU)']
-gdp_df = gdp_df[['Country Name', '2019 [YR2019]']]
-gdp_df.rename(columns={'Country Name': 'Country', '2019 [YR2019]': 'GDP per capita'}, inplace=True)
-gdp_df['GDP per capita'] = pd.to_numeric(gdp_df['GDP per capita'], errors='coerce')
+df_gdp  = df.dropna(subset=['GDP_current_usd', 'Happiness', 'Country', 'Happiness_rank'])
+df_gni  = df.dropna(subset=['GNI_current_usd', 'Happiness', 'Country', 'Happiness_rank'])
+df_gini = df.dropna(subset=['Gini_index',       'Happiness', 'Country', 'Happiness_rank'])
 
+def add_trend_line(fig, x, y, name, color, visible=True):
+    
+    x_vals = np.log(x) if name in ['GDP', 'GNI'] else x
+    x_vals = x_vals.values.reshape(-1, 1)
+    y_vals = y.values.reshape(-1, 1)
+    
+    model = LinearRegression()
+    model.fit(x_vals, y_vals)
+    
+    
+    x_trend = np.linspace(min(x), max(x), 100)
+    x_trend_input = np.log(x_trend) if name in ['GDP', 'GNI'] else x_trend
+    
+    y_trend = model.predict(x_trend_input.reshape(-1, 1)).flatten()
+    
+    fig.add_trace(
+        go.Scatter(
+            x=x_trend,
+            y=y_trend,
+            mode='lines',
+            name=f'{name} Trend',
+            line=dict(color=color, dash='dash'),
+            visible=visible,
+            hoverinfo='skip'
+        )
+    )
 
-merged_df = pd.merge(happiness_df, gdp_df, on='Country')
-merged_df.dropna(inplace=True)
-
-
-plt.figure(figsize=(14, 8))
-sns.set(style="whitegrid")
-
-plt.scatter(
-    merged_df['GDP per capita'],
-    merged_df['Happiness Score'],
-    color='steelblue',
-    edgecolor='white',
-    s=100,
-    alpha=0.85
+trace_gdp = go.Scatter(
+    x=df_gdp['GDP_current_usd'],
+    y=df_gdp['Happiness'],
+    mode='markers',
+    name='GDP (US$)',
+    visible=True,
+    text=df_gdp['Country'],
+    customdata=df_gdp['Happiness_rank'],
+    hovertemplate=(
+        "Country: %{text}<br>"
+        f"Rank: %{{customdata}} out of {total_countries}<br>"
+        "GDP (US$): %{x:$,.0f}<br>"
+        "Happiness: %{y:.2f}<extra></extra>"
+    )
 )
 
-
-plt.xlim(1000, 170000)  
-plt.xticks(
-    range(0, 170000, 10000),  
-    [f"${int(x/1000)}k" for x in range(0, 170000, 10000)],
-    fontsize=12
+trace_gni = go.Scatter(
+    x=df_gni['GNI_current_usd'],
+    y=df_gni['Happiness'],
+    mode='markers',
+    name='GNI (US$)',
+    visible=False,
+    text=df_gni['Country'],
+    customdata=df_gni['Happiness_rank'],
+    hovertemplate=(
+        "Country: %{text}<br>"
+        f"Rank: %{{customdata}} out of {total_countries}<br>"
+        "GNI (US$): %{x:$,.0f}<br>"
+        "Happiness: %{y:.2f}<extra></extra>"
+    )
 )
 
-plt.yticks(range(2, 11), fontsize=12)
-plt.ylim(2, 10)
+trace_gini = go.Scatter(
+    x=df_gini['Gini_index'],
+    y=df_gini['Happiness'],
+    mode='markers',
+    name='Gini Index',
+    visible=False,
+    text=df_gini['Country'],
+    customdata=df_gini['Happiness_rank'],
+    hovertemplate=(
+        "Country: %{text}<br>"
+        f"Rank: %{{customdata}} out of {total_countries}<br>"
+        "Gini Index: %{x:.2f}<br>"
+        "Happiness: %{y:.2f}<extra></extra>"
+    )
+)
 
-plt.xlabel('GDP per capita', fontsize=13)
-plt.ylabel('Life satisfaction (0–10)', fontsize=13)
-plt.title('Self-reported life satisfaction vs. GDP per capita', fontsize=16, weight='bold')
+fig = go.Figure(data=[trace_gdp, trace_gni, trace_gini])
 
-plt.grid(True, linestyle='--', alpha=0.5)
-sns.despine()
-plt.tight_layout()
-plt.show()
+add_trend_line(fig, df_gdp['GDP_current_usd'], df_gdp['Happiness'], 'GDP', 'blue', True)
+add_trend_line(fig, df_gni['GNI_current_usd'], df_gni['Happiness'], 'GNI', 'blue', False)
+add_trend_line(fig, df_gini['Gini_index'], df_gini['Happiness'], 'Gini', 'blue', False)
+
+steps = [
+    dict(
+        method='update',
+        label='GDP (US$)',
+        args=[
+            {'visible': [True, False, False]},
+            {
+                'title': 'Happiness vs GDP (current US$)',
+                'xaxis': {'title': 'GDP (current US$)', 'type': 'log'},
+                'yaxis': {'title': 'Happiness'}
+            }
+        ]
+    ),
+    dict(
+        method='update',
+        label='GNI (US$)',
+        args=[
+            {'visible': [False, True, False]},
+            {
+                'title': 'Happiness vs GNI (current US$)',
+                'xaxis': {'title': 'GNI (current US$)', 'type': 'log'},
+                'yaxis': {'title': 'Happiness'}
+            }
+        ]
+    ),
+    dict(
+        method='update',
+        label='Gini Index',
+        args=[
+            {'visible': [False, False, True]},
+            {
+                'title': 'Happiness vs Gini Index',
+                'xaxis': {'title': 'Gini Index', 'type': 'linear'},
+                'yaxis': {'title': 'Happiness'}
+            }
+        ]
+    )
+]
+
+fig.update_layout(
+    sliders=[dict(
+        active=0,
+        currentvalue={'prefix': 'Metric: '},
+        pad={'t': 50},
+        steps=steps
+    )],
+    title="Happiness vs GDP (current US$)",
+    width=900,
+    height=600,
+    margin={'t':80},
+    xaxis=dict(
+        title='GDP (current US$)',
+        type='log'
+    ),
+    yaxis=dict(
+        title='Happiness'
+    )
+)
+
+iplot(fig)
+
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
 [31mModuleNotFoundError[39m                       Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 2[39m
-[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
-[32m----> [39m[32m2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mmatplotlib[39;00m[34;01m.[39;00m[34;01mpyplot[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mplt[39;00m
-[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mseaborn[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01msns[39;00m
-[32m      5[39m happiness_df = pd.read_csv([33m"[39m[33m2019happy.csv[39m[33m"[39m)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 5[39m
+[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mplotly[39;00m[34;01m.[39;00m[34;01mgraph_objects[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mgo[39;00m
+[32m      4[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mplotly[39;00m[34;01m.[39;00m[34;01moffline[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m init_notebook_mode, iplot
+[32m----> [39m[32m5[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01msklearn[39;00m[34;01m.[39;00m[34;01mlinear_model[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m LinearRegression
+[32m      7[39m init_notebook_mode(connected=[38;5;28;01mTrue[39;00m)
+[32m      9[39m df = pd.read_csv([33m'[39m[33mfinal.csv[39m[33m'[39m)
 
-[31mModuleNotFoundError[39m: No module named 'matplotlib'
+[31mModuleNotFoundError[39m: No module named 'sklearn'
 
