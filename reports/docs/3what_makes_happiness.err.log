@@ -1,0 +1,183 @@
+Traceback (most recent call last):
+  File "/home/m/miniconda3/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/m/miniconda3/lib/python3.13/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/home/m/miniconda3/lib/python3.13/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/m/miniconda3/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/m/miniconda3/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/m/miniconda3/lib/python3.13/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/home/m/miniconda3/lib/python3.13/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/m/miniconda3/lib/python3.13/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+from plotly.offline import init_notebook_mode, iplot
+
+init_notebook_mode(connected=True)
+
+df = pd.read_csv('final.csv')
+
+df['Happiness_rank'] = df['Happiness'].rank(method='min', ascending=False).astype(int)
+total_countries = df['Country'].nunique()
+
+df_gini = df.dropna(subset=['Gini_index', 'Happiness', 'Country', 'Happiness_rank'])
+df_gdp  = df.dropna(subset=['GDP_current_usd', 'Happiness', 'Country', 'Happiness_rank'])
+df_gni  = df.dropna(subset=['GNI_current_usd', 'Happiness', 'Country', 'Happiness_rank'])
+
+x_range_gini = [df_gini['Gini_index'].min(), df_gini['Gini_index'].max()]
+x_range_gdp  = [df_gdp['GDP_current_usd'].min(), 5e11]
+x_range_gni  = [df_gni['GNI_current_usd'].min(), 5e11]
+y_range      = [df['Happiness'].min(), df['Happiness'].max()]
+
+def add_trend_trace(x, y, color, visible=True):
+    x_vals = x.values
+    y_vals = y.values
+    slope, intercept = np.polyfit(x_vals, y_vals, 1)
+    x_trend = np.linspace(min(x_vals), max(x_vals), 100)
+    y_trend = slope * x_trend + intercept
+    return go.Scatter(
+        x=x_trend,
+        y=y_trend,
+        mode='lines',
+        line=dict(color=color, dash='dash'),
+        name='Trend Line',
+        visible=visible,
+        hoverinfo='skip'
+    )
+
+trace_gini = go.Scatter(
+    x=df_gini['Gini_index'],
+    y=df_gini['Happiness'],
+    mode='markers',
+    name='Gini Index',
+    visible=True,
+    text=df_gini['Country'],
+    customdata=df_gini['Happiness_rank'],
+    hovertemplate=(
+        "Country: %{text}<br>"
+        f"Rank: %{{customdata}} out of {total_countries}<br>"
+        "Gini Index: %{x:.1f}<br>"
+        "Happiness: %{y:.2f}<extra></extra>"
+    )
+)
+
+trace_gdp = go.Scatter(
+    x=df_gdp['GDP_current_usd'],
+    y=df_gdp['Happiness'],
+    mode='markers',
+    name='GDP per Capita',
+    visible=False,
+    text=df_gdp['Country'],
+    customdata=df_gdp['Happiness_rank'],
+    hovertemplate=(
+        "Country: %{text}<br>"
+        f"Rank: %{{customdata}} out of {total_countries}<br>"
+        "GDP per Capita: $%{x:,.0f}<br>"
+        "Happiness: %{y:.2f}<extra></extra>"
+    )
+)
+
+trace_gni = go.Scatter(
+    x=df_gni['GNI_current_usd'],
+    y=df_gni['Happiness'],
+    mode='markers',
+    name='GNI per Capita',
+    visible=False,
+    text=df_gni['Country'],
+    customdata=df_gni['Happiness_rank'],
+    hovertemplate=(
+        "Country: %{text}<br>"
+        f"Rank: %{{customdata}} out of {total_countries}<br>"
+        "GNI per Capita: $%{x:,.0f}<br>"
+        "Happiness: %{y:.2f}<extra></extra>"
+    )
+)
+
+trend_gini = add_trend_trace(df_gini['Gini_index'], df_gini['Happiness'], 'blue', True)
+trend_gdp  = add_trend_trace(df_gdp['GDP_current_usd'], df_gdp['Happiness'], 'blue', False)
+trend_gni  = add_trend_trace(df_gni['GNI_current_usd'], df_gni['Happiness'], 'blue', False)
+
+fig = go.Figure(data=[trace_gini, trace_gdp, trace_gni, trend_gini, trend_gdp, trend_gni])
+
+steps = [
+    dict(method='update', label='Gini Index',
+         args=[{'visible': [True, False, False, True, False, False]},
+               {'title': 'Happiness vs Gini Index',
+                'xaxis': {'title': 'Gini Index', 'range': x_range_gini, 'fixedrange': True},
+                'yaxis': {'title': 'Happiness', 'range': y_range, 'fixedrange': True}}]),
+    dict(method='update', label='GDP per Capita',
+         args=[{'visible': [False, True, False, False, True, False]},
+               {'title': 'Happiness vs GDP per Capita',
+                'xaxis': {'title': 'GDP per Capita (USD)', 'range': x_range_gdp, 'fixedrange': True},
+                'yaxis': {'title': 'Happiness', 'range': y_range, 'fixedrange': True}}]),
+    dict(method='update', label='GNI per Capita',
+         args=[{'visible': [False, False, True, False, False, True]},
+               {'title': 'Happiness vs GNI per Capita',
+                'xaxis': {'title': 'GNI per Capita (USD)', 'range': x_range_gni, 'fixedrange': True},
+                'yaxis': {'title': 'Happiness', 'range': y_range, 'fixedrange': True}}])
+]
+
+fig.update_layout(
+    sliders=[dict(
+        active=0,
+        currentvalue={'prefix': 'Metric: '},
+        pad={'t': 50},
+        steps=steps,
+        len=0.9,
+        x=0.1,
+        xanchor='left'
+    )],
+    title="Happiness vs Gini Index",
+    width=800,
+    height=600,
+    autosize=False,
+    margin=dict(t=80, b=80, l=80, r=80),
+    xaxis=dict(
+        title=dict(text='Gini Index', font=dict(size=14)),
+        range=x_range_gini,
+        fixedrange=True,
+        tickfont=dict(size=12),
+        automargin=False
+    ),
+    yaxis=dict(
+        title=dict(text='Happiness', font=dict(size=14)),
+        range=y_range,
+        fixedrange=True,
+
+------------------
+
+
+  [36mCell[39m[36m [39m[32mIn[1][39m[32m, line 135[39m
+[31m    [39m[31mfixedrange=True,[39m
+                    ^
+[31m_IncompleteInputError[39m[31m:[39m incomplete input
+
+
