@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -185,6 +185,8 @@
 <li class="toctree-l1"><a class="reference internal" href="3what_makes_happiness.html">What makes happiness?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4summary.html">Summary</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Reflection</a></li>
+
+
 <li class="toctree-l1"><a class="reference internal" href="6work_distribution.html">Work distribution</a></li>
 </ul>
 
@@ -358,7 +360,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -374,6 +378,17 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Reflection</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#peer-feedback">Peer feedback</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#self-reflection">Self-reflection</a></li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -385,8 +400,24 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="reflection">
 <h1>Reflection<a class="headerlink" href="#reflection" title="Link to this heading">#</a></h1>
-<p>Hallo hallo hallo
-HVDB IK MIS JE</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="peer-feedback">
+<h1>Peer feedback<a class="headerlink" href="#peer-feedback" title="Link to this heading">#</a></h1>
+<p>On June 24th, 2025, our team B4 met with our TA for a peer feedback session, during which we presented our work over the past 3 weeks. After our presentation, feedback was given focusing on strengths and areas for improvement.</p>
+<p>The main compliments we received at the time were that the intentions behind our comparisons were valid, and that the essence of the story was clear. However, the feedback also pointed out several opportunities to improve the interactivity, depth, and narrative clarity of our work.</p>
+<p>Below is a summary of the key feedback provided by our TA:</p>
+<p>Replace the fixed scatterplot with an interactive variable selection tool, such as dropdowns for both axes, allowing users to explore different relationships themselves.</p>
+<p>Start with a broad overview using a correlation matrix (heatmap) of all numerical variables, to help readers identify the strongest correlations at a glance.</p>
+<p>Follow this with a deep-dive scatterplot on the most interesting variable pairs.</p>
+<p>Add short narrative texts at each stage to feed the reader some context. Explain what is being shown, and provide examples and case study highlights.</p>
+<p>As a team, we agreed that this was valuable and actionable feedback. We discussed it internally and have since implemented these suggestions to improve the interactivity, structure, and clarity of our data story.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="self-reflection">
+<h1>Self-reflection<a class="headerlink" href="#self-reflection" title="Link to this heading">#</a></h1>
+<p>If this project had lasted an additional two to three weeks, we would have focused on exploring the interconnectedness between variables rather than examining them in isolation. While we successfully compared happiness against several economic and socioeconomic indicators, we recognize that many of these variables are not entirely independent from each other. For instance, GDP per capita and life expectancy might both be influenced by broader structural factors, and exploring those relationships could provide deeper insights into the drivers of happiness.</p>
+<p>Another area for further research would be to expand beyond purely economic and socioeconomic variables. Factors such as social relationships, cultural values, mental health services, or perceived freedom could also play a significant role in how happy people report feeling.</p>
+<p>Furthermore a broader question to ask is about the subjectivesness of happiness, and whether it can truly be captured using objective, country-level indicators. People in different regions or with different values may interpret or experience happiness in unique ways, and accounting for this diversity would enrich the story we are trying to tell.</p>
+<p>Although time constraints limited our ability to dive deeper into these posibilities, we believe they represent valuable directions for future work.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -443,6 +474,24 @@ HVDB IK MIS JE</p>
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Reflection</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#peer-feedback">Peer feedback</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#self-reflection">Self-reflection</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
