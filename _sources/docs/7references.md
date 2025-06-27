@@ -2,14 +2,14 @@
 
 <style>
 a.custom-link {
-  color: #D81B60;
+  color: #F57C00;
   text-decoration: none;
   font-weight: 500;
 }
 
 a.custom-link:hover {
   text-decoration: underline;
-  color: #AD1457;
+  color: #EF6C00;
 }
 </style>
 
