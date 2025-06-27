@@ -1,0 +1,9 @@
+a {
+    color: #0077cc; /* frisser blauw, vervang door elke gewenste hexkleur */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #005fa3; /* donkerder blauw bij hover */
+    text-decoration: underline;
+}
