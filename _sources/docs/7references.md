@@ -22,8 +22,14 @@ Kahneman, D., & Deaton, A. (2010). High income improves evaluation of life but n
 Larion, A. (2019). World Happiness Report [Dataset]. Kaggle.  
 <a class="custom-link" href="https://www.kaggle.com/datasets/unsdsn/world-happiness" target="_blank">https://www.kaggle.com/datasets/unsdsn/world-happiness</a>
 
+Oishi, S., Kesebir, S., & Diener, E. (2011). Income Inequality and Happiness. <i>Psychological Science </i>, 22(9), 1095–1100. 
+<a class="custom-link" href="http://www.jstor.org/stable/115794" target="_blank">https://doi.org/10.1177/0956797611417262</a>
+
 Pearson, K. (1895). Note on regression and inheritance in the case of two parents. <i>Proceedings of the Royal Society of London, 58</i>, 240–242.  
 <a class="custom-link" href="http://www.jstor.org/stable/115794" target="_blank">http://www.jstor.org/stable/115794</a>
+
+Winkelmann, R. (2014). Unemployment and happiness. <i> IZA World Of Labor </i>. 
+<a class="custom-link" href="http://www.jstor.org/stable/115794" target="_blank">https://doi.org/10.15185/izawol.94</a>
 
 World Bank. (2025). World Development Indicators.  
 <a class="custom-link" href="https://databank.worldbank.org/source/world-development-indicators" target="_blank">https://databank.worldbank.org/source/world-development-indicators</a>
