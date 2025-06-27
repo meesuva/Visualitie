@@ -1,4 +1,9 @@
 # Work distribution
+We mainly communicated through text messages and held team meetings throughout the project to check in with everyone and assess what still needed to be done.
+In our first team meeting, we brainstormed ideas for the data story project and ultimately reached a unanimous consensus to compare happiness with economic variables.
+After deciding on the topic, we thoroughly researched the most suitable datasets. We then proceeded to clean and aggregate the two datasets (see dataset_and_preprocessing.ipynb).
+Furthermore, we discussed which types of graphs would best suit our project. Most of the data pointed towards scatter plots, which posed a challenge, as we did not want to rely solely on scatter plots. Fortunately, after extensive team discussions and peerfeedback, we came up with the idea of combining the scatter plots into a single interactive graph. This would allow us to include other types of visualizations as well. Unfortunately, this idea was not implemented in the draft version.
+Towards the end of the project, we focused on optimizing the graphs and refining the narrative and taking the peer feedback into account, we completed the final version of our data story.
 
 Bruno Schlotter: <br>
 
@@ -8,7 +13,7 @@ Bruno was our main lead for the visualisations. He created the foundation for th
 
 Daniel Penninkhof: <br>
 
-Daniel came with the idea to compare happiness to economic variables. Furthermore he helped all around with the visualisations and text around the whole data story. He also presented the draft in the peer feedback session.
+Daniel came with the idea to compare happiness to economic variables. Furthermore he helped all around with the visualisations and text around the whole data story. He also presented the draft in the peer feedback session. Moreover, he was responsible for a large part of the narrative in the data story.
 
 <br>
 
