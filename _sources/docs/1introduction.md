@@ -1,7 +1,7 @@
 # Introduction
 For many years, happiness and well-being have been the key focus for societies in our world. The question of how much wealth influences happiness and whether a country's "richness" is related to the well-being of its people is an important metric to understand happiness across the world.
 While it's often said that “money can’t buy happiness,” this view is more complex than it first appears.
-This data story will explore the relationship between financial factors and happiness across different countries, using data from the World Happiness Report 2019. The report assesses happiness based on several indicators, e.g. GDP per capita, health and freedom. The report allows us to investigate how strongly income correlates with happiness and well-being. 
+This data story will explore the relationship between financial factors and happiness across different countries, using data from the World Happiness Report 2019 (Larion 2019) and World Development Indicators dataset (World Bank 2025). The happiness report gives us our happiness scores, while the second dataset gives us the variables to compare with.
 
 This data story will mainly visualize and analyze whether higher income levels correlate with greater happiness, however we will also analyze other factors that might relate with happiness in society.
 
