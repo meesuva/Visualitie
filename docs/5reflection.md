@@ -22,6 +22,6 @@ If this project had lasted an additional two to three weeks, we would have focus
 
 Another area for further research would be to expand beyond purely economic and socioeconomic variables. Factors such as social relationships, cultural values, mental health services, or perceived freedom could also play a significant role in how happy people report feeling. 
 
-Furthermore a broader question to ask is about the subjectivesness of happiness, and whether it can truly be captured using objective, country-level indicators. People in different regions or with different values may interpret or experience happiness in unique ways, and accounting for this diversity would enrich the story we are trying to tell.
+Furthermore a broader question to ask is about the subjectiveness of happiness, and whether it can truly be captured using objective, country-level indicators. People in different regions or with different values may interpret or experience happiness in unique ways, and accounting for this diversity would enrich the story we are trying to tell.
 
 Although time constraints limited our ability to dive deeper into these posibilities, we believe they represent valuable directions for future work.
